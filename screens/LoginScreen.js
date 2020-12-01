@@ -1,4 +1,4 @@
-import React,{useContext} from 'react'
+import React, { useContext, useState } from 'react'
 import { StyleSheet, Text, View, Image } from 'react-native'
 
 
@@ -9,8 +9,12 @@ import ErrorMessage from '../components/ErrorMessage'
 import AppFormField from '../components/forms/AppFormField'
 import SubmitButton from '../components/SubmitButton'
 import AuthContext from '../auth/context'
+import authApi from '../api/auth'
+import jwtDecode from 'jwt-decode'
+import AuthStorage from '../auth/storage'
 
 export default function LoginScreen(props) {
+    const [loginFailed, setLoginFailed] = useState()
 
 
     const validationSchema = Yup.object().shape({
@@ -18,28 +22,44 @@ export default function LoginScreen(props) {
         password: Yup.string().min(5).required().label("Twoje Hasło")
     })
 
-    const authContext=useContext(AuthContext)
+    const authContext = useContext(AuthContext)
 
-    const onSubmitHandler=()=>{
+    const onSubmitHandler = () => {
         authContext.setUserLogged(true)
     }
 
+
+
+    const handleSubmit = async ({ email, password }) => {
+        const result = await authApi.login(email, password)
+        console.log(email, password)
+        if (!result.ok) return setLoginFailed(true)
+        setLoginFailed(false)
+        const user=jwtDecode(result.data)
+        console.log(user)
+        authContext.setUserLogged(user)
+        AuthStorage.storeToken(result.data)
+    }
+
+
+
     return (
-        <View style={{padding:11}}>
+        <View style={{ padding: 11 }}>
             <Image
                 style={styles.logo}
                 resizeMode='contain'
                 source={require("../assets/logo.jpg")} />
+            <ErrorMessage
+                error="Invalid email or/and password"
+                visible={loginFailed}
+            />
 
             <AppForm
                 initialValues={{ email: '', password: '' }}
-                onSubmit={() => console.log("onSubmit")}
+                onSubmit={handleSubmit}
                 validationSchema={validationSchema}
             >
-                <ErrorMessage
-                    error="Niepoprawny email"
-                // visible={true}
-                />
+
 
 
                 <AppFormField
@@ -66,7 +86,6 @@ export default function LoginScreen(props) {
                     title='Zaloguj'
                     color="littleDark"
                     textColor="white"
-                    onPress={()=>onSubmitHandler()}
                 />
             </AppForm>
 
