@@ -9,7 +9,7 @@ export default function WelcomeScreen() {
 
     const authContext = useContext(AuthContext)
     const handleLogOut = () => {
-        authContext.setUserLogged(null)
+        authContext.setUserLogged(false)
     }
 
     const userName = authContext.userLogged.name

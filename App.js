@@ -1,14 +1,15 @@
 import { StatusBar } from 'expo-status-bar';
 import React, { useState } from 'react';
 import { StyleSheet, Text, View, ImageBackground } from 'react-native';
-
+import {NavigationContainer} from '@react-navigation/native'
 import AppNavigator from './navigation/AppNavigation'
 import MainNavigator from './navigation/MainNavigation'
 import Screen from './screens/Screen'
 import AuthContext from './auth/context'
 import AuthStorage from './auth/storage'
-import jwtDecode from 'jwt-decode'
 import { AppLoading } from 'expo'
+import {navigationRef} from './navigation/rootNavigation'
+
 
 export default function App() {
 
@@ -28,7 +29,15 @@ export default function App() {
 
   let navToDisplay = <AppNavigator />
   if (userLogged) {
-    navToDisplay = <MainNavigator />
+    navToDisplay =
+      <>
+      <MainNavigator />
+      
+      </>
+
+
+
+
   } else {
     navToDisplay = <AppNavigator />
   }
@@ -39,11 +48,14 @@ export default function App() {
   />
 
 
+
   return (
     <AuthContext.Provider value={{ userLogged, setUserLogged }}>
       <Screen>
 
-        {navToDisplay}
+        <NavigationContainer ref={navigationRef} >
+          {navToDisplay}
+        </NavigationContainer>
 
       </Screen>
     </AuthContext.Provider >

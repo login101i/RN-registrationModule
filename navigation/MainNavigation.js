@@ -7,13 +7,19 @@ import { createBottomTabNavigator } from 'react-navigation-tabs'
 import { Ionicons } from '@expo/vector-icons'
 
 
+
+
+
 import UsersItemsScreen from '../screens/UserItemsScreen'
 import UserAccountScreen from '../screens/AccountScreen'
 import Colors from '../config/colors'
+import RequestForNotifications from '../hooks/RequestForNotifications'
 
 
 
 
+// RequestForNotifications() 
+// cg Nie wiem jak zrobić z tego kompent funkcyjny
 
 const defaultOptions = {
     headerStyle: {

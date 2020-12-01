@@ -37,7 +37,7 @@ export default function WelcomeScreen(props) {
                         title="Rejestracja"
                         color="littleDark"
                         textColor="white"
-                        onPress={() => console.log("rejestracja")}
+                        onPress={()=>{onNavigateRegister()}}
 
                     />
                 </View>

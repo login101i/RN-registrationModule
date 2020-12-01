@@ -11,9 +11,8 @@ export default function AppButton({ title, color = "white", onPress, textColor =
 
     const { handleSubmit } = useFormikContext()
     return (
+
         <TouchableNativeFeedback
-
-
             onPress={handleSubmit}>
             <View style={[styles.button, { backgroundColor: colors[color] }]}>
 
@@ -22,12 +21,10 @@ export default function AppButton({ title, color = "white", onPress, textColor =
                     name={iconName}
                     color="white"
                     size={23}
-
                 />
+
+                
                 <Text style={[styles.buttonText, { color: colors[textColor], textTransform: smallLetters }]}>
-
-
-
                     {title}
                 </Text>
             </View>

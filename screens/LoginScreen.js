@@ -31,10 +31,12 @@ export default function LoginScreen(props) {
 
 
     const handleSubmit = async ({ email, password }) => {
+        console.log("hahahha")
         const result = await authApi.login(email, password)
         console.log(email, password)
         if (!result.ok) return setLoginFailed(true)
         setLoginFailed(false)
+        console.log(result.data)
         const user=jwtDecode(result.data)
         console.log(user)
         authContext.setUserLogged(user)
